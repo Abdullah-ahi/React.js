@@ -6,21 +6,42 @@ import { Header } from '../Header';
 import { ChatList } from '../ChatList';
 import {  MessageForm  } from '../MessageForm'
 import {  MessagesList  } from '../MessagesList';
+
 export class Messenger extends Component{
     state = {
-        messages: [
-            
-        ]
+        chats: {
+            '1':{
+                id: 1,
+                messages: [
+                    {text: 'Hello from chat № 1', author: 'Bot'}
+                ],
+                name: 'Chat 1'
+            },
+            '2':{
+                id: 2,
+                messages: [
+                    {text: 'Hello from chat № 2', author: 'Bot'}
+                ],
+                name: 'Chat 2'
+            },
+            '3':{
+                id: 3,
+                messages: [
+                    {text: 'Hello from chat № 3', author: 'Bot'}
+                ],
+                name: 'Chat 3'
+            }
+        }
     }
 
     componentDidUpdate(){
-        const { messages } = this.state
-        if (messages[messages.length - 1].author !== 'Bot'){
-            setTimeout(() => {
-                this.setState({
-                messages: messages.concat({author: 'Bot', text: `Hello ${messages[messages.length - 1].author}! The bot is conected. I don't understand you`})
-                })
-            }, 1000)
+        if (this.messages.length){
+            const { author } = this.messages[this.messages.length - 1];
+            if (author !== 'Bot'){
+                setTimeout(() => {
+                    this.handleMessageSend({author: 'Bot', text: `Hello ${this.messages[this.messages.length - 1].author}! The bot is conected. I don't understand you`})
+                }, 1000)
+            }
         }
     }
 
@@ -28,19 +49,39 @@ export class Messenger extends Component{
         if (message.text === ''){
             return
         }else{
-            this.setState(({messages}) => ({messages: messages.concat([message])}))
+            const { chats } = this.state;
+            const { match } = this.props;
+
+            const chat = chats[match.params.id];
+            const messages = this.messages.concat(message)
+            chat.messages = messages
+            this.setState({
+                chats: {
+                    ...this.state.chats,
+                    [match.params.id]: chat,
+                }
+            })
         }
     }
+    get messages(){
+        const { chats } = this.state;
+        const { match } = this.props;
+
+        let messages = null;
+        if (match && chats[match.params.id]){
+            messages = chats[match.params.id].messages
+        }
+        return messages;
+    }
     render(){
-        const { messages } = this.state;
+        console.log(this.props);
         return (
             <div className="messenger">
-                <Header/>
                 <div className="messages-block">
                     <ChatList/>
-                    <MessagesList items={messages}/>
+                    {this.messages ? <MessagesList items={this.messages}/> : 'Please, choose the chat to talk'}
                 </div>
-                <MessageForm onSend={this.handleMessageSend}/>
+                {this.messages && <MessageForm onSend={this.handleMessageSend}/>}
             </div>
         )
     }

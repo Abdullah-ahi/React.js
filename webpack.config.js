@@ -13,7 +13,8 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
             components: path.resolve(__dirname, 'src', 'components'),
-            assets: path.resolve(__dirname, 'src', 'assets')
+            assets: path.resolve(__dirname, 'src', 'assets'),
+            pages: path.resolve(__dirname, 'src', 'pages')
         }
         
     },
@@ -42,6 +43,10 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'main.css',
         }),
-    ]
+    ],
+
+    devServer: {
+        historyApiFallback: true,
+    }
 
 }

@@ -11,23 +11,20 @@ export class Messenger extends Component{
     state = {
         chats: {
             '1':{
-                id: 1,
                 messages: [
-                    {text: 'Hello from chat № 1', author: 'Bot'}
+                    {text: 'Hello from chat № 1', author: 'Bot'},
                 ],
                 name: 'Chat 1'
             },
             '2':{
-                id: 2,
                 messages: [
-                    {text: 'Hello from chat № 2', author: 'Bot'}
+                    {text: 'Hello from chat № 2', author: 'Bot'},
                 ],
                 name: 'Chat 2'
             },
             '3':{
-                id: 3,
                 messages: [
-                    {text: 'Hello from chat № 3', author: 'Bot'}
+                    {text: 'Hello from chat № 3', author: 'Bot'},
                 ],
                 name: 'Chat 3'
             }
@@ -74,9 +71,9 @@ export class Messenger extends Component{
         return messages;
     }
     render(){
-        console.log(this.props);
         return (
             <div className="messenger">
+                <Header/>
                 <div className="messages-block">
                     <ChatList/>
                     {this.messages ? <MessagesList items={this.messages}/> : 'Please, choose the chat to talk'}

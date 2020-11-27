@@ -7,30 +7,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 export class ChatList extends Component {
-    static propTypes = {
-        items: PropTypes.object
-    }
-
-
     render(){
+        const { chats } = this.props;
         return (
             <div className="chatList">
                 <List>
-                    <ListItem>
-                        <Link to='/chats/1'>
-                            <ListItemText primary='Chat1'></ListItemText>
+                    {chats.map((chat, idx) => 
+                    <ListItem key={idx}>
+                        <Link to={chat.link}>
+                            <ListItemText primary={chat.name}></ListItemText>
                         </Link>
-                    </ListItem>
-                    <ListItem>
-                        <Link to='/chats/2'>
-                            <ListItemText primary='Chat2'></ListItemText>
-                        </Link>
-                    </ListItem>
-                    <ListItem>
-                        <Link to='/chats/3'>
-                            <ListItemText primary='Chat3'></ListItemText>
-                        </Link>
-                    </ListItem>
+                    </ListItem>)}
                 </List>
             </div>
         )

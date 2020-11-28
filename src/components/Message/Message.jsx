@@ -13,7 +13,7 @@ export class Message extends Component{
     static propTypes = messageType;
     
     render(){
-        const { author, text } = this.props;
+        const { author, text} = this.props;
 
         const classes = classNames('message', {
             'message-owner': author !== 'Bot',

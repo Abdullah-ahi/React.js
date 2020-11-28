@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Messenger } from 'components/Messenger';
-import { load, send } from 'actions/chats'
+import { load, send, author } from 'actions/chats'
 
 class MessengerContainer extends PureComponent {
 
@@ -37,9 +37,9 @@ class MessengerContainer extends PureComponent {
         }
     }
     render(){
-        const { chats, messages } = this.props;
+        const { chats, messages, author, askAuthor } = this.props;
         return(
-            <Messenger SendMessage={this.handleMessageSend} messages={messages} chats={chats}/>
+            <Messenger askAuthor={askAuthor} author={author} SendMessage={this.handleMessageSend} messages={messages} chats={chats}/>
         )
     }
 }
@@ -47,6 +47,7 @@ class MessengerContainer extends PureComponent {
 function mapStateToProps(state, ownProps){
     const chats = state.chats.get('entries'); //Пишется "get('entries')", потому что state является объектом Map();
     const { match } = ownProps;
+    const author = state.chats.get('loading')
 
     let messages = null;
     if (match && chats.has(match.params.id)){
@@ -54,6 +55,7 @@ function mapStateToProps(state, ownProps){
     }
 
     return {
+        author,
         chats: chats.map((entry) => ({name: entry.get('name'), link: `/chats/${entry.get('id')}`})).toList().toJS(),
         messages,
         chatId: match ? match.params.id : null,
@@ -63,7 +65,8 @@ function mapStateToProps(state, ownProps){
 function mapDispatchToProps(dispatch){
     return {
         loadChats: () => dispatch(load()),
-        SendMessage: (message) => dispatch(send(message))
+        SendMessage: (message) => dispatch(send(message)),
+        askAuthor: () => dispatch(author())
     }
 }
 

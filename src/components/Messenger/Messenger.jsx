@@ -9,15 +9,15 @@ import {  MessagesList  } from '../MessagesList';
 
 export class Messenger extends Component{
     render(){
-        const { chats, messages, SendMessage } = this.props
+        const { chats, messages, SendMessage, author, askAuthor } = this.props
         return (
             <div className="messenger">
-                <Header/>
+                <Header askAuthor={askAuthor} author={author}/>
                 <div className="messages-block">
                     <ChatList chats={chats}/>
                     {messages ? <MessagesList items={messages}/> : 'Please, choose the chat to talk'}
                 </div>
-                {messages && <MessageForm onSend={SendMessage}/>}
+                {messages && <MessageForm Prop_author={author} onSend={SendMessage}/>}
             </div>
         )
     }

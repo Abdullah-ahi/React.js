@@ -2,6 +2,7 @@ import './MessageForm.css';
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
@@ -19,6 +20,8 @@ export class MessageForm extends Component{
     }
 
     handleMessageSend = () => {
+        const { Prop_author } = this.props
+
         const { onSend } = this.props;
 
         if (typeof(onSend) === 'function'){
@@ -46,9 +49,16 @@ export class MessageForm extends Component{
 
     render(){
         const {author, text} = this.state
+        const { Prop_author } = this.props
+        Prop_author ? this.state.author = Prop_author : () => {return}
+
+        const classes = classNames('author', {
+            'show': !Prop_author,
+            'hide': Prop_author,
+        })
         return (
             <div className="message-form">
-                <TextField label="Author" name="author" className="author" onChange={this.handleInputChange} type="text" value = {author}/>
+                <TextField label="Author" name="author" className={classes} onChange={this.handleInputChange} type="text" value = {author}/>
                 <TextField label="Text" name="text" className="message_text" onKeyDown = {this.handleEnterDown} onChange={this.handleInputChange} type="text" value = {text}/>
                 <Fab variant="round" color="primary" onClick={this.handleMessageSend}><SendIcon/></Fab>
             </div>

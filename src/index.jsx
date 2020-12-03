@@ -5,15 +5,18 @@ import ReactDom from 'react-dom';
 import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import { routes } from './routes';
 import {  Provider } from 'react-redux';
-import { store } from './store'
+import { store, history } from './store';
+import { ConnectedRouter } from 'connected-react-router';
 
 ReactDom.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <Switch>
-                {routes.map((route, idx)=> <Route key={idx} {...route}/>)}
-            </Switch>
-        </BrowserRouter>
+        <ConnectedRouter history={history}>
+            <BrowserRouter>
+                <Switch>
+                    {routes.map((route, idx)=> <Route key={idx} {...route}/>)}
+                </Switch>
+            </BrowserRouter>
+        </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
 )

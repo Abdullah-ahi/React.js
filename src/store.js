@@ -1,5 +1,13 @@
 import { createStore, applyMiddleware } from 'redux';
-import { rootReducer } from 'reducers'
-import logger from 'redux-logger';
+import { initReducer } from 'reducers';
 
-export const store = createStore(rootReducer, applyMiddleware(logger));
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+
+import { logger } from 'middlewares/logger';
+import { bot } from 'middlewares/bot';
+import { flashing } from 'middlewares/ChatFlashing'
+
+export const history = createBrowserHistory();
+
+export const store = createStore(initReducer(history), applyMiddleware(logger, bot, flashing, routerMiddleware(history)));

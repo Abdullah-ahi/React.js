@@ -1,27 +1,15 @@
-import React, { PureComponent, useEffect } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { Messenger } from 'components/Messenger';
-import { load, send, author } from 'actions/chats'
+import { load, send, add, del} from 'actions/chats';
+import { push } from 'connected-react-router';
 
 class MessengerContainer extends PureComponent {
 
     componentDidMount(){
         const { loadChats } = this.props;
         loadChats();
-    }
-    componentDidUpdate(){
-        const { messages, match } = this.props
-        if (match.params.id){
-            if (messages.length){
-                const { author } = messages[messages.length - 1];
-                if (author !== 'Bot'){
-                    setTimeout(() => {
-                        this.handleMessageSend({author: 'Bot', text: `Hello ${messages[messages.length - 1].author}! The bot is conected. I don't understand you`})
-                    }, 1000)
-                }
-            }
-        }
     }
 
     handleMessageSend = (message) => {
@@ -36,10 +24,25 @@ class MessengerContainer extends PureComponent {
             })
         }
     }
+
+    handleChatAdd = () => {
+        const { addChat, newChatId, redirect } = this.props
+        const chatName = prompt('Введите имя чата: ')
+        if (!chatName.length){
+            return
+        }else{
+            addChat({name: chatName, chatId: newChatId});
+            redirect(newChatId);
+        }
+    }
+    deleteChat = () => {
+        const { lastId, chatDel } = this.props
+        chatDel(lastId)
+    }
     render(){
-        const { chats, messages, author, askAuthor } = this.props;
+        const { chats, messages, author} = this.props;
         return(
-            <Messenger askAuthor={askAuthor} author={author} SendMessage={this.handleMessageSend} messages={messages} chats={chats}/>
+            <Messenger  chatDel = {this.deleteChat} addChat={this.handleChatAdd} SendMessage={this.handleMessageSend} messages={messages} chats={chats} author={author}/>
         )
     }
 }
@@ -49,16 +52,21 @@ function mapStateToProps(state, ownProps){
     const { match } = ownProps;
     const author = state.chats.get('loading')
 
+    const lastId = state.chats.get('entries').size ? state.chats.get('entries').last().get('id') : 0;
+    const newChatId = +lastId + 1;
+
     let messages = null;
+
     if (match && chats.has(match.params.id)){
         messages = chats.getIn([match.params.id, 'messages']).toJS()
     }
 
     return {
         author,
-        chats: chats.map((entry) => ({name: entry.get('name'), link: `/chats/${entry.get('id')}`})).toList().toJS(),
+        chats: chats.map((entry) => ({id: entry.get('id'), name: entry.get('name'), link: `/chats/${entry.get('id')}`})).toList().toJS(),
         messages,
         chatId: match ? match.params.id : null,
+        newChatId
     }
 }
 
@@ -66,7 +74,9 @@ function mapDispatchToProps(dispatch){
     return {
         loadChats: () => dispatch(load()),
         SendMessage: (message) => dispatch(send(message)),
-        askAuthor: () => dispatch(author())
+        addChat: (chat) => dispatch(add(chat)),
+        redirect: (id) => dispatch(push(`/chats/${id}`)),
+        chatDel: (id) => dispatch(del({chatId: id}))
     }
 }
 

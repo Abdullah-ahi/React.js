@@ -20,8 +20,6 @@ export class MessageForm extends Component{
     }
 
     handleMessageSend = () => {
-        const { Prop_author } = this.props
-
         const { onSend } = this.props;
 
         if (typeof(onSend) === 'function'){

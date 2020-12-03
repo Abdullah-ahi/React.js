@@ -7,3 +7,7 @@
     padding: 20px;
     overflow-y: scroll;
 }
+.delete-chat{
+    width: 17%;
+    align-self: flex-end;
+}

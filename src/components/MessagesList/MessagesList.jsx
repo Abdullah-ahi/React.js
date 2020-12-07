@@ -12,10 +12,10 @@ export class MessagesList extends Component{
         ),
     };
     render(){
-        const { items, chatDel} = this.props;
+        const { items,} = this.props;
         return (
             <div className="messages-list">
-                <Button onClick={chatDel} variant="contained" color="primary" className="delete-chat">Delete chat</Button>
+                {/* <Button onClick={chatDel} variant="contained" color="primary" className="delete-chat">Delete chat</Button> */}
                 {items.map((message, idx) => <Message key={idx} {...message}/>)}
             </div>
         )

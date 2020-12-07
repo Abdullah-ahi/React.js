@@ -36,7 +36,7 @@ module.exports = {
                 'css-loader',
                 'sass-loader'
             ]
-        }
+        },
     ]
     },
 
@@ -52,6 +52,6 @@ module.exports = {
 
     devServer: {
         historyApiFallback: true,
-    }
+    },
 
 }

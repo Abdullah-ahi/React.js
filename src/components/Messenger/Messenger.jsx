@@ -9,13 +9,13 @@ import {  MessagesList  } from '../MessagesList';
 
 export class Messenger extends Component{
     render(){
-        const { chats, messages, SendMessage, author, addChat, chatDel} = this.props
+        const { chats, messages, SendMessage, author, addChat, removeChat} = this.props
         return (
             <div className="messenger">
                 <HeaderRedux/>
                 <div className="messages-block">
-                    <ChatList addChat={addChat} chats={chats}/>
-                    {messages ? <MessagesList chatDel={chatDel} items={messages}/> : 'Please, choose the chat to talk'}
+                    <ChatList removeChat={removeChat} addChat={addChat} chats={chats}/>
+                    {messages ? <MessagesList items={messages}/> : 'Please, choose the chat to talk'}
                 </div>
                 {messages && <MessageForm Prop_author={author} onSend={SendMessage}/>}
             </div>

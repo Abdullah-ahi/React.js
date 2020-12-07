@@ -11,11 +11,9 @@ import { ConnectedRouter } from 'connected-react-router';
 ReactDom.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <BrowserRouter>
-                <Switch>
-                    {routes.map((route, idx)=> <Route key={idx} {...route}/>)}
-                </Switch>
-            </BrowserRouter>
+            <Switch>
+                {routes.map((route, idx)=> <Route key={idx} {...route}/>)}
+            </Switch>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root')

@@ -29,3 +29,14 @@
     transition: background-color 0.5s ease;
     background-color: #fff;
 }
+
+.chat-name{
+    display: inline-flex;
+}
+
+.delete-button{
+    display: inline-flex !important;
+    width: 32px !important;
+    height: 30px !important;
+    margin-right: 10px !important;
+}

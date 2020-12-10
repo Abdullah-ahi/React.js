@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { author } from 'actions/chats'
 
 class HeaderContainer extends PureComponent{
+
     render(){
-        const { author, askAuthor } = this.props
+        const { author, regAuthor } = this.props
         return (
-            <Header author={author} askAuthor = {askAuthor}/>
+            <Header author={author} askAuthor = {regAuthor}/>
         )
     }
 }
@@ -23,7 +24,7 @@ function mapStateToProps(state, ownProps){
 
 function mapDispatchToProps(dispatch){
     return {
-        askAuthor: () => dispatch(author())
+        regAuthor: () => dispatch(author())
     }
 }
 

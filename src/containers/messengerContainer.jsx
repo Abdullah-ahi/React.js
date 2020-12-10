@@ -44,7 +44,7 @@ class MessengerContainer extends PureComponent {
 function mapStateToProps(state, ownProps){
     const chats = state.chats.get('entries'); //Пишется "get('entries')", потому что state является объектом Map();
     const { match } = ownProps;
-    const author = state.chats.get('loading');
+    const author = state.chats.get('loading')
     let messages = null;
 
     if (match && chats.has(match.params.id)){
@@ -53,7 +53,7 @@ function mapStateToProps(state, ownProps){
 
     return {
         author,
-        chats: chats.sortBy((entry) => -entry.get('timestamp')).map((entry) => ({_id: entry.get('_id'), name: entry.get('name'), link: `/chats/${entry.get('_id')}`, timestamp: entry.get('timestamp')})).toList().toJS(),
+        chats: chats.sortBy((entry) => -entry.get('timestamp')).map((entry) => ({ name: entry.get('name'), link: `/chats/${entry.get('_id')}`, _id: entry.get('_id'), timestamp: entry.get('timestamp')})).toList().toJS(),
         messages,
         chatId: match ? match.params.id : null,
     }

@@ -1,4 +1,4 @@
-// import './MessageForm.css';
+import './MessageForm.css';
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -7,8 +7,6 @@ import classNames from 'classnames';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send'
-
-
 export class MessageForm extends Component{
     state = {
         author: '',
